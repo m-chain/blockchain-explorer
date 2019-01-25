@@ -1,0 +1,983 @@
+swagger: "2.0"
+info:
+  title: 区块浏览器接口文档
+  description: 区块浏览器相关API接口
+  version: "1.0"
+  contact:
+    email: telong@m-chain.com
+basePath: /blocks
+paths:
+  /browser/GetGasAddress:
+    post:
+      tags:
+      - browser
+      description: 获取手续费收取地址
+      operationId: APIController.GetGasAddress
+      responses:
+        "200":
+          description: string
+  /browser/getBaseCoin:
+    post:
+      tags:
+      - browser
+      description: 获取基础币种
+      operationId: APIController.getBaseCoin
+      responses:
+        "200":
+          description: '{"result":[object],"message": "","errorcode": "1000","status":
+            true}'
+          schema:
+            $ref: '#/definitions/models.InfoTokenDetail'
+  /browser/getBlockInfomation:
+    post:
+      tags:
+      - browser
+      description: 区块数据(区块高度,总交易次数,总交易额,Token总数,合约总数)
+      operationId: APIController.getBlockInfomation
+      responses:
+        "200":
+          description: '{"result":[object],"message": "","errorcode": "1000","status":
+            true}'
+          schema:
+            $ref: '#/definitions/models.BlockInfomation'
+  /browser/getBlocks:
+    post:
+      tags:
+      - browser
+      description: 根据区块id获取区块数据
+      operationId: APIController.getBlocks
+      parameters:
+      - in: query
+        name: blockId
+        description: 区块id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{"result":[object],"message": "","errorcode": "1000","status":
+            true}'
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/models.InfoBlocks'
+  /browser/getBlocksList:
+    post:
+      tags:
+      - browser
+      description: 分页获取区块数据
+      operationId: APIController.getBlocksList
+      parameters:
+      - in: query
+        name: pageNo
+        description: 页码
+        required: true
+        type: integer
+        format: int64
+      - in: query
+        name: pageSize
+        description: 每页条数
+        required: true
+        type: integer
+        format: int64
+      - in: query
+        name: orderBy
+        description: 排序(asc正序desc倒序)
+        type: string
+      responses:
+        "200":
+          description: '{"result":{ "totalnum": 21,"totalpage": 3,"pageno": 1,"data":[object]},"message":
+            "","errorcode": "1000","status": true}'
+          schema:
+            $ref: '#/definitions/models.InfoBlocks'
+  /browser/getContractDetailList:
+    post:
+      tags:
+      - browser
+      description: 获取合约列表数据
+      operationId: APIController.getContractDetailList
+      parameters:
+      - in: query
+        name: pageNo
+        description: 页码
+        required: true
+        type: integer
+        format: int64
+      - in: query
+        name: pageSize
+        description: 每页条数
+        required: true
+        type: integer
+        format: int64
+      - in: query
+        name: orderBy
+        description: 排序(asc正序desc倒序)
+        type: string
+      responses:
+        "200":
+          description: '{"result":{ "totalnum": 21,"totalpage": 3,"pageno": 1,"data":[object]},"message":
+            "","errorcode": "1000","status": true}'
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/models.InfoContracts'
+  /browser/getContractDetailWithID:
+    post:
+      tags:
+      - browser
+      description: 根据合约ID获取合约详情
+      operationId: APIController.getContractDetailWithID
+      parameters:
+      - in: query
+        name: contractid
+        description: 合约id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{"result":[object],"message": "","errorcode": "1000","status":
+            true}'
+          schema:
+            $ref: '#/definitions/models.InfoContracts'
+  /browser/getContractGasFeeList:
+    post:
+      tags:
+      - browser
+      description: 获取费用返还列表数据
+      operationId: APIController.getContractGasFeeList
+      parameters:
+      - in: query
+        name: pageNo
+        description: 页码
+        required: true
+        type: integer
+        format: int64
+      - in: query
+        name: pageSize
+        description: 每页条数
+        required: true
+        type: integer
+        format: int64
+      - in: query
+        name: id
+        description: 合约id
+        required: true
+        type: string
+      - in: query
+        name: orderBy
+        description: 排序(asc正序desc倒序)
+        type: string
+      responses:
+        "200":
+          description: '{"result":{ "totalnum": 21,"totalpage": 3,"pageno": 1,"data":[object]},"message":
+            "","errorcode": "1000","status": true}'
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/models.InfoGasreturn'
+  /browser/getContractGasRecordList:
+    post:
+      tags:
+      - browser
+      description: 获取费用交易列表数据
+      operationId: APIController.getContractGasRecordList
+      parameters:
+      - in: query
+        name: pageNo
+        description: 页码
+        required: true
+        type: integer
+        format: int64
+      - in: query
+        name: pageSize
+        description: 每页条数
+        required: true
+        type: integer
+        format: int64
+      - in: query
+        name: id
+        description: 合约id
+        required: true
+        type: string
+      - in: query
+        name: orderBy
+        description: 排序(asc正序desc倒序)
+        type: string
+      responses:
+        "200":
+          description: '{"result":{ "totalnum": 21,"totalpage": 3,"pageno": 1,"data":[object]},"message":
+            "","errorcode": "1000","status": true}'
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/models.InfoGasrecords'
+  /browser/getContractGasRecordWithID:
+    post:
+      tags:
+      - browser
+      description: 根据ID获取费用交易
+      operationId: APIController.getContractGasRecordWithID
+      parameters:
+      - in: query
+        name: id
+        description: 费用记录id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{"result":[object],"message": "","errorcode": "1000","status":
+            true}'
+          schema:
+            $ref: '#/definitions/models.InfoGasrecords'
+  /browser/getContractTxList:
+    post:
+      tags:
+      - browser
+      description: 获取合约下产生的手续费交易
+      operationId: APIController.getContractTxList
+      parameters:
+      - in: query
+        name: pageNo
+        description: 页码
+        required: true
+        type: integer
+        format: int64
+      - in: query
+        name: pageSize
+        description: 每页条数
+        required: true
+        type: integer
+        format: int64
+      - in: query
+        name: contractAddress
+        description: 合约地址 42210100081711e98188b503d53e9ebb
+        required: true
+        type: string
+      - in: query
+        name: orderBy
+        description: 排序(asc正序desc倒序)
+        type: string
+      responses:
+        "200":
+          description: '{"result":{ "totalnum": 21,"totalpage": 3,"pageno": 1,"data":[object]},"message":
+            "","errorcode": "1000","status": true}'
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/models.InfoTransactionDetail'
+  /browser/getNodeInfomation:
+    post:
+      tags:
+      - browser
+      description: 获取节点数据
+      operationId: APIController.getNodeInfomation
+      responses:
+        "200":
+          description: '{"result":[object],"message": "","errorcode": "1000","status":
+            true}'
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/models.NodeInformation'
+  /browser/getQueryBalance:
+    post:
+      tags:
+      - browser
+      description: 根据地址获取地址账户信息
+      operationId: APIController.getQueryBalance
+      parameters:
+      - in: query
+        name: address
+        description: 地址
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{"result":[object],"message": "","errorcode": "1000","status":
+            true}'
+          schema:
+            $ref: '#/definitions/response.WalletBalanceDetail'
+  /browser/getTokenDetail:
+    post:
+      tags:
+      - browser
+      description: 根据交易hash获取代币详情
+      operationId: APIController.getTokenDetail
+      parameters:
+      - in: query
+        name: txhash
+        description: 交易hash
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{"result":[object],"message": "","errorcode": "1000","status":
+            true}'
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/models.InfoTokenDetail'
+  /browser/getTokenDetailList:
+    post:
+      tags:
+      - browser
+      description: 获取代币列表数据
+      operationId: APIController.getTokenDetailList
+      parameters:
+      - in: query
+        name: pageNo
+        description: 页码
+        required: true
+        type: integer
+        format: int64
+      - in: query
+        name: pageSize
+        description: 每页条数
+        required: true
+        type: integer
+        format: int64
+      - in: query
+        name: orderBy
+        description: 排序(asc正序desc倒序)
+        type: string
+      responses:
+        "200":
+          description: '{"result":{ "totalnum": 21,"totalpage": 3,"pageno": 1,"data":[object]},"message":
+            "","errorcode": "1000","status": true}'
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/models.InfoTokenDetail'
+  /browser/getTokenDetailWithID:
+    post:
+      tags:
+      - browser
+      description: 根据ID获取代币详情
+      operationId: APIController.getTokenDetailWithID
+      parameters:
+      - in: query
+        name: tokenid
+        description: 代币id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{"result":[object],"message": "","errorcode": "1000","status":
+            true}'
+          schema:
+            $ref: '#/definitions/models.InfoTokenDetail'
+  /browser/getTransactionDetail:
+    post:
+      tags:
+      - browser
+      description: 根据交易id获取交易数据
+      operationId: APIController.getTransactionDetail
+      parameters:
+      - in: query
+        name: txid
+        description: 交易id
+        type: string
+      responses:
+        "200":
+          description: '{"result":[object],"message": "","errorcode": "1000","status":
+            true}'
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/models.InfoTransactionDetail'
+  /browser/getTransactionDetailList:
+    post:
+      tags:
+      - browser
+      description: 获取交易详情列表数据
+      operationId: APIController.getTransactionDetailList
+      parameters:
+      - in: query
+        name: pageNo
+        description: 页码
+        required: true
+        type: integer
+        format: int64
+      - in: query
+        name: pageSize
+        description: 每页条数
+        required: true
+        type: integer
+        format: int64
+      - in: query
+        name: search
+        description: 查询条件
+        type: string
+      - in: query
+        name: searchType
+        description: 查询类型(Empty = 0 BlockId = 1 Address = 2 TokenId = 3, TokenIdAndAddress
+          = 6
+        type: integer
+        format: int64
+      - in: query
+        name: address
+        description: 地址(当联合查询TokenID和地址时使用)
+        type: string
+      - in: query
+        name: orderBy
+        description: 排序(asc正序desc倒序)
+        type: string
+      responses:
+        "200":
+          description: '{"result":{ "totalnum": 21,"totalpage": 3,"pageno": 1,"data":[object]},"message":
+            "","errorcode": "1000","status": true}'
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/models.InfoTransactionDetail'
+  /browser/getTransactionDetailWithHash:
+    post:
+      tags:
+      - browser
+      description: 根据交易hash获取交易数据
+      operationId: APIController.getTransactionDetailWithHash
+      parameters:
+      - in: query
+        name: hash
+        description: 交易hash
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{"result":[object],"message": "","errorcode": "1000","status":
+            true}'
+          schema:
+            $ref: '#/definitions/models.InfoTransactionDetail'
+  /browser/getTransactions:
+    post:
+      tags:
+      - browser
+      description: 根据区块id获取交易数据
+      operationId: APIController.getTransactions
+      parameters:
+      - in: query
+        name: blockId
+        description: 区块id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{"result":[object],"message": "","errorcode": "1000","status":
+            true}'
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/models.InfoTransaction'
+  /browser/getWalletDetail:
+    post:
+      tags:
+      - browser
+      description: 根据交易hash获取钱包数据
+      operationId: APIController.getWalletDetail
+      parameters:
+      - in: query
+        name: txhash
+        description: 交易hash
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{"result":[object],"message": "","errorcode": "1000","status":
+            true}'
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/models.InfoWalletDetail'
+  /browser/searchInformation:
+    post:
+      tags:
+      - browser
+      description: 模糊查询
+      operationId: APIController.searchInformation
+      parameters:
+      - in: query
+        name: search
+        description: 查询条件
+        type: string
+      responses:
+        "200":
+          description: '{"result":[object],"message": "","errorcode": "1000","status":
+            true}'
+          schema:
+            $ref: '#/definitions/response.SearchInformationModel'
+definitions:
+  models.BlockInfomation:
+    title: BlockInfomation
+    type: object
+    properties:
+      blockheight:
+        description: 区块高度
+        type: integer
+        format: int64
+      contractnum:
+        description: 合约总数
+        type: integer
+        format: int64
+      id:
+        description: 主键
+        type: integer
+        format: int64
+      tokennum:
+        description: token总数
+        type: integer
+        format: int32
+      transactiontimes:
+        description: 总交易次数
+        type: integer
+        format: int64
+      transactionvalue:
+        description: 总交易额
+        type: number
+        format: double
+      updatetime:
+        description: 更新时间
+        type: string
+        format: datetime
+  models.InfoBlocks:
+    title: InfoBlocks
+    type: object
+    properties:
+      blockhash:
+        description: 区块Hash
+        type: string
+      blockid:
+        description: 区块ID(区块高度)
+        type: integer
+        format: int64
+      blocksize:
+        description: 区块数据大小(KB)(区块大小)
+        type: number
+        format: double
+      content:
+        description: 备注
+        type: string
+      createtime:
+        description: 创建时间(生成时间)
+        type: string
+        format: datetime
+      datahash:
+        description: 区块数据hash
+        type: string
+      id:
+        description: 主键
+        type: integer
+        format: int64
+      nexthash:
+        description: 下一个区块的hash
+        type: string
+      previoushash:
+        description: 上一个区块的hash
+        type: string
+      transactioncount:
+        description: 交易笔数(交易次数)
+        type: string
+      transactionvalue:
+        description: 交易数量
+        type: string
+      updatetime:
+        description: 更新时间
+        type: string
+        format: datetime
+  models.InfoContracts:
+    title: InfoContracts
+    type: object
+    properties:
+      blockid:
+        description: 区块ID
+        type: string
+      contractAddress:
+        description: 合约地址
+        type: string
+      contractPath:
+        description: 合约路径
+        type: string
+      contractSymbol:
+        description: 合约名称简写(英文简称)
+        type: string
+      createTime:
+        description: 创建时间
+        type: string
+      gasReturnFee:
+        description: 已返还手续费
+        type: string
+      gasfee:
+        description: 手续费
+        type: string
+      id:
+        description: 主键
+        type: integer
+        format: int64
+      mAddress:
+        description: 拥有平台币地址
+        type: string
+      name:
+        description: 合约名称
+        type: string
+      remark:
+        description: 备注
+        type: string
+      status:
+        description: 合约状态(-1已删除 ,1待初始化 ,2正在运行 ,3余额不足)
+        type: string
+      updatetime:
+        description: 更新时间
+        type: string
+      version:
+        description: 合约版本号
+        type: string
+  models.InfoGasrecords:
+    title: InfoGasrecords
+    type: object
+    properties:
+      address:
+        description: 地址
+        type: string
+      args:
+        description: 交易数据
+        type: string
+      ccname:
+        description: 合约名称
+        type: string
+      ccversion:
+        description: 合约版本
+        type: string
+      contractaddress:
+        description: 合约地址
+        type: string
+      createtime:
+        description: 创建时间(生成时间)
+        type: string
+        format: datetime
+      fcnname:
+        description: 合约调用的参数
+        type: string
+      feeid:
+        description: 手续费序号
+        type: integer
+        format: int64
+      gasused:
+        description: 所需的手续费
+        type: string
+      id:
+        description: 主键
+        type: integer
+        format: int64
+      returntxid:
+        description: 对应返还记录的交易ID(为空时，表示还未进行手续费结算处理)
+        type: string
+      txid:
+        description: 执行合约方法时产生的交易ID
+        type: string
+      updatetime:
+        description: 更新时间
+        type: string
+        format: datetime
+  models.InfoGasreturn:
+    title: InfoGasreturn
+    type: object
+    properties:
+      address:
+        description: 地址
+        type: string
+      amount:
+        description: 交易数量(总量)
+        type: string
+      blockid:
+        description: 区块ID
+        type: string
+      contractaddress:
+        description: 合约地址
+        type: string
+      createTime:
+        description: 创建时间
+        type: string
+      gasfeeid:
+        description: 返还手续费ID
+        type: string
+      gasreturnhash:
+        description: 返还手续费hash
+        type: string
+      id:
+        description: 主键
+        type: integer
+        format: int64
+      initReleaseAmount:
+        description: 初次释放数量(立即释放)
+        type: string
+      interval:
+        description: 时间间隔(秒)
+        type: integer
+        format: int64
+      periods:
+        description: 总期数
+        type: integer
+        format: int64
+      reason:
+        description: 原因
+        type: string
+      startTime:
+        description: 开始时间(生效时间)
+        type: string
+        format: datetime
+      tokenID:
+        description: 代币ID
+        type: string
+      txID:
+        description: 交易ID
+        type: string
+      withdrawed:
+        description: 已经返还数量
+        type: string
+  models.InfoTokenDetail:
+    title: InfoTokenDetail
+    type: object
+    properties:
+      circulation:
+        description: 流通量
+        type: string
+      decimalunits:
+        description: 精确小数位
+        type: string
+      id:
+        description: 主键
+        type: integer
+        format: int64
+      isbasecoin:
+        description: 是否主币
+        type: integer
+        format: int32
+      issueprice:
+        description: 发行价格
+        type: string
+      issuetime:
+        description: 发行时间
+        type: string
+      name:
+        description: 币种名称
+        type: string
+      restNumber:
+        description: 剩余量
+        type: string
+      status:
+        description: 状态(0失效1有效)
+        type: integer
+        format: int32
+      tokenid:
+        description: 币种ID
+        type: string
+      tokenmaster:
+        description: 资产存放地址
+        type: string
+      tokensymbol:
+        description: 币种单位
+        type: string
+      totalnumber:
+        description: 发行总量
+        type: string
+      txhash:
+        description: 交易hash
+        type: string
+  models.InfoTransaction:
+    title: InfoTransaction
+    type: object
+    properties:
+      blockid:
+        description: 区块id
+        type: string
+      chaincodename:
+        description: 链码名称
+        type: string
+      chaincodeversion:
+        description: 链码版本号
+        type: string
+      channelname:
+        description: 通道名称
+        type: string
+      createdt:
+        description: 创建时间
+        type: string
+        format: datetime
+      id:
+        description: 主键
+        type: integer
+        format: int64
+      txhash:
+        description: 交易hash
+        type: string
+  models.InfoTransactionDetail:
+    title: InfoTransactionDetail
+    type: object
+    properties:
+      blockid:
+        description: 区块id(区块高度)
+        type: string
+      contractaddress:
+        description: 产生该笔交易所对应的合约
+        type: string
+      fee:
+        description: 手续费
+        type: string
+      fromaddress:
+        description: 转出地址(发起者)
+        type: string
+      id:
+        description: 主键
+        type: integer
+        format: int64
+      iscost:
+        description: 是否手续费交易(1是0否)
+        type: integer
+        format: int32
+      msg:
+        description: 转账错误信息
+        type: string
+      nonce:
+        description: 交易下标
+        type: string
+      notes:
+        description: 备注
+        type: string
+      number:
+        description: 交易数量
+        type: string
+      parenttxhash:
+        description: 区块总交易hash(非单笔交易hash)
+        type: string
+      state:
+        description: 转账状态:0.待确认 1.成功 2.失败
+        type: integer
+        format: int64
+      toaddress:
+        type: string
+      tokenid:
+        description: 币种ID
+        type: string
+      tokensymbol:
+        description: 币种单位
+        type: string
+      transactiontime:
+        description: 交易时间
+        type: string
+      txhash:
+        description: 交易hash
+        type: string
+  models.InfoWalletDetail:
+    title: InfoWalletDetail
+    type: object
+    properties:
+      address:
+        description: 地址
+        type: string
+      createtime:
+        description: 创建时间
+        type: string
+        format: datetime
+      id:
+        description: 主键
+        type: integer
+        format: int64
+      islocked:
+        description: 是否锁定
+        type: integer
+        format: int64
+      pubkey:
+        description: 公钥
+        type: string
+      releaseplans:
+        description: 释放计划JSON
+        type: string
+      transationid:
+        description: 交易hash
+        type: string
+  models.NodeInformation:
+    title: NodeInformation
+    type: object
+    properties:
+      blockheight:
+        description: 区块高度
+        type: integer
+        format: int64
+      containerid:
+        description: 节点ID
+        type: string
+      id:
+        description: 主键
+        type: integer
+        format: int64
+      lat:
+        description: 纬度
+        type: string
+      lon:
+        description: 经度
+        type: string
+      nodeaddress:
+        description: 节点位置
+        type: string
+      nodeip:
+        description: 节点IP
+        type: string
+      nodename:
+        description: 节点名称
+        type: string
+      runstatus:
+        description: 运行状态
+        type: string
+      updatetime:
+        description: 更新时间
+        type: string
+        format: datetime
+  response.SearchInformationModel:
+    title: SearchInformationModel
+    type: object
+    properties:
+      resultcontent:
+        type: string
+      resulttype:
+        description: 结果类型(Empty = 0 BlockId = 1 Address = 2 TokenId = 3  Contract
+          = 4  Transaction = 5)
+        type: integer
+        format: int64
+  response.WalletBalanceDetail:
+    title: WalletBalanceDetail
+    type: object
+    properties:
+      address:
+        description: 地址
+        type: string
+      createTime:
+        description: 创建时间
+        type: string
+      isLocked:
+        description: 是否锁定
+        type: integer
+        format: int64
+      pubKey:
+        description: 公钥
+        type: string
+      walletRests:
+        type: array
+        items:
+          $ref: '#/definitions/response.WalletRestsDetail'
+  response.WalletRestsDetail:
+    title: WalletRestsDetail
+    type: object
+    properties:
+      freezeNumber:
+        description: 冻结数量
+        type: string
+      isBaseCoin:
+        description: 是否主币
+        type: boolean
+      restNumber:
+        description: 可用数量
+        type: string
+      tokenID:
+        description: 代币ID
+        type: string
+      tokenSymbol:
+        description: 代币简称
+        type: string
